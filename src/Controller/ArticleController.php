@@ -16,14 +16,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController {
 
   /**
-   * @Route("/")
+   * @Route("/", name="homepage")
    */
   public function homepage() {
-    return new Response('This will be the articles page!');
+    return $this->render('article/homepage.html.twig');
   }
 
   /**
-   * @Route("/news/{slug}")
+   * @Route("/news/{slug}", name="show_article")
    */
   public function showArticle($slug) {
     $comments = [
@@ -35,6 +35,7 @@ class ArticleController extends AbstractController {
     return $this->render('article/show-article.html.twig', [
       'title' => ucwords(str_replace('-', ' ', $slug)),
       'comments' => $comments,
+      'slug' => $slug,
       ]
     );
   }
