@@ -18,6 +18,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController {
 
   /**
+   * @var bool
+   */
+  private $isDebug;
+
+  public function __construct(bool $isDebug) {
+
+    $this->isDebug = $isDebug;
+  }
+
+  /**
    * @Route("/", name="homepage")
    */
   public function homepage() {

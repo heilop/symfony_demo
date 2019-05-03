@@ -11,6 +11,10 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        # setup special, global autowiring rules
+        bind:
+            $markdownLogger: '@monolog.logger.markdown'
+            $isDebug: true
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -28,6 +32,6 @@ services:
     # please note that last definitions always *replace* previous ones
 
     # Add Custom services markdown helpoer.
-    App\Service\MarkdownHelper:
-        arguments:
-            $logger: '@monolog.logger.markdown'
+#    App\Service\MarkdownHelper:
+#        arguments:
+#            $logger: '@markdownLogger'
