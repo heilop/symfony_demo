@@ -10,6 +10,7 @@ namespace App\Controller;
 
 
 use App\Entity\Article;
+use App\Repository\ArticleRepository;
 use App\Service\MarkdownHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,8 +33,11 @@ class ArticleController extends AbstractController {
   /**
    * @Route("/", name="homepage")
    */
-  public function homepage() {
-    return $this->render('article/homepage.html.twig');
+  public function homepage(ArticleRepository $repository) {
+    $articles = $repository->findAllPublishedOrderedByNewest();
+    return $this->render('article/homepage.html.twig', [
+      'articles' => $articles,
+    ]);
   }
 
   /**
