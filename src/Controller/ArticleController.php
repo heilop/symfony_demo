@@ -8,15 +8,11 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
-use App\Service\MarkdownHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
 
 class ArticleController extends AbstractController {
 
@@ -43,16 +39,7 @@ class ArticleController extends AbstractController {
   /**
    * @Route("/news/{slug}", name="show_article")
    */
-  public function showArticle($slug, MarkdownHelper $markdownHelper, EntityManagerInterface $em) {
-
-    $repository = $em->getRepository(Article::class);
-    $article = $repository->findOneBy(['slug' => $slug ]);
-
-
-    if (!$article) {
-      throw $this->createNotFoundException(sprintf('No article for slug "%s"', $slug));
-    }
-
+  public function showArticle(Article $article) {
     $comments = [
       'This is the first comment!',
       'This is the second comment!',
