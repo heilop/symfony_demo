@@ -10,6 +10,8 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,9 +61,13 @@ class ArticleController extends AbstractController {
   /**
    * @Route("news/{slug}/heart", name="toggle_article_heart", methods={"POST"});
    */
-  public function toggleHeartArticle($slug) {
+  public function toggleHeartArticle(Article $article, LoggerInterface $logger, EntityManagerInterface $em) {
     // @TODO - actually heart/unheart the article!
+    $article->incrementHeartCount();
+    $em->flush();
 
-    return new JsonResponse(['hearts' => rand(5, 100)]);
+    $logger->info('Article is being hearted!.');
+
+    return new JsonResponse(['hearts' => $article->getHeartCount()]);
   }
 }
