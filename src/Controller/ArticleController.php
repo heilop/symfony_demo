@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,12 +43,7 @@ class ArticleController extends AbstractController {
    * @Route("/news/{slug}", name="show_article")
    */
   public function showArticle(Article $article) {
-    $comments = [
-      'This is the first comment!',
-      'This is the second comment!',
-      'This is the third comment!',
-    ];
-
+    $comments = $article->getComments();
 
     // $articleContent = $markdownHelper->parse($articleContent);
 
