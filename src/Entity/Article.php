@@ -197,4 +197,19 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
         return $this;
     }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getNonDeletedComments(): Collection
+    {
+      $comments = [];
+
+      foreach ($this->getComments() as $comment) {
+        if (!$comment->getIsDeleted()) {
+          $comments[] = $comment;
+        }
+      }
+      return new ArrayCollection($comments);
+    }
 }
