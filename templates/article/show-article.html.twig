@@ -14,8 +14,13 @@
                 <span class="align-left article-details"><img class="article-author-img rounded-circle" src="{{ asset('images/alien-profile.png') }}"> {{ article.author }} </span>
                 <span class="pl-2 article-details"> {{ article.publishedArt ?  article.publishedArt|ago : 'Unpublished' }}</span>
                 <span class="js-like-article-count">{{ article.heartCount }}</span>
-                <a href="{{ path('toggle_article_heart', { slug: article.slug }) }}" class="fa fa-heart-o like-article js-like-article"></a>
-            </span>
+                    <a href="{{ path('toggle_article_heart', { slug: article.slug }) }}" class="fa fa-heart-o like-article js-like-article"></a>
+                </span>
+                <span class="pl-2 article-details">
+                    {% for tag in article.tags %}
+                        <span class="badge badge-secondary">{{ tag.name }}</span>
+                    {% endfor %}
+                </span>
             </div>
         </div>
     </div>
