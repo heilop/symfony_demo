@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Article;
 
+/**
+ * @IsGranted("ROLE_ADMIN")
+ */
 class ArticleAdminController extends AbstractController
 {
 
   /**
-   * @Route("/admin/article/new")
+   * @Route("/admin/article/new", name="admin_article_new")
    */
   public function new(EntityManagerInterface $em) {
     // @TODO Create admin page.
