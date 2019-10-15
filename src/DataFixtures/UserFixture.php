@@ -18,7 +18,7 @@ class UserFixture extends BaseFixture {
     }
 
     protected function loadData(ObjectManager $manager) {
-    $this->createManyTmp(10, 'main_users', function ($i) {
+      $this->createManyTmp(10, 'main_users', function ($i) {
       $user = new User();
       $user->setEmail($this->faker->safeEmail);
       $user->setFirstName($this->faker->firstName);
@@ -29,6 +29,19 @@ class UserFixture extends BaseFixture {
       return $user;
     });
 
-    $manager->flush();
+      $this->createManyTmp(3, 'admin_users', function ($i) {
+        $user = new User();
+        $user->setEmail(sprintf('admin%d@example.com', $i));
+        $user->setFirstName($this->faker->firstName);
+        $user->setRoles(['ROLE_ADMIN']);
+
+        $user->setPassword($this->passwordEncoder->encodePassword(
+          $user,
+          'pass'
+        ));
+        return $user;
+      });
+
+      $manager->flush();
   }
 }
