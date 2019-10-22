@@ -9,14 +9,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Article;
 
-/**
- * @IsGranted("ROLE_ADMIN_ARTICLE")
- */
 class ArticleAdminController extends AbstractController
 {
 
   /**
    * @Route("/admin/article/new", name="admin_article_new")
+   * @IsGranted("ROLE_ADMIN_ARTICLE")
    */
   public function new(EntityManagerInterface $em) {
     // @TODO Create admin page.
@@ -36,5 +34,15 @@ class ArticleAdminController extends AbstractController
       return $this->render('article_admin/index.html.twig', [
           'controller_name' => 'ArticleAdminController',
       ]);
+  }
+
+  /**
+   * @Route("/admin/article/{id}/edit")
+   */
+  public function edit(Article $article) {
+    if ($article->getAuthor() != $this->getUser() && !$this->isGranted('ROLE_ADMIN_ARTICLE')) {
+      throw $this->createAccessDeniedException('Access denied!');
+    }
+    dd($article);
   }
 }
