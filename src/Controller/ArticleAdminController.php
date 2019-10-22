@@ -14,7 +14,7 @@ class ArticleAdminController extends AbstractController
 
   /**
    * @Route("/admin/article/new", name="admin_article_new")
-   * @IsGranted("ROLE_ADMIN_ARTICLE")
+   * @IsGranted("MANAGE", subject="article")
    */
   public function new(EntityManagerInterface $em) {
     // @TODO Create admin page.
@@ -38,11 +38,12 @@ class ArticleAdminController extends AbstractController
 
   /**
    * @Route("/admin/article/{id}/edit")
+   * @IsGranted("MANAGE", subject="article")
    */
   public function edit(Article $article) {
-    if ($article->getAuthor() != $this->getUser() && !$this->isGranted('ROLE_ADMIN_ARTICLE')) {
-      throw $this->createAccessDeniedException('Access denied!');
-    }
+
+    //$this->denyAccessUnlessGranted('MANAGE', $article);
+
     dd($article);
   }
 }
