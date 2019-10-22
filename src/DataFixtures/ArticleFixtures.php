@@ -57,7 +57,7 @@ EOF
           $article->addTag($tag);
         }
 
-        $article->setAuthor($this->faker->randomElement(self::$articleAuthors))
+        $article->setAuthor($this->getRandomReference('main_users'))
           ->setHeartCount($this->faker->numberBetween(5, 100))
           ->setImageFilename($this->faker->randomElement(self::$articleImages));
 
@@ -69,6 +69,7 @@ EOF
   public function getDependencies() {
     return [
       TagFixture::class,
+      UserFixture::class,
     ];
   }
 }

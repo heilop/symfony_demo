@@ -23,11 +23,11 @@ final class Version20191011220035 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
 
         $this->addSql('DROP INDEX UNIQ_8D93D649E7927C74');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__user AS SELECT id, email, roles, first_name, password FROM user');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__user AS SELECT id, email, roles, first_name FROM user');
         $this->addSql('DROP TABLE user');
         $this->addSql('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, email VARCHAR(180) NOT NULL COLLATE BINARY, roles CLOB NOT NULL COLLATE BINARY --(DC2Type:json)
         , first_name VARCHAR(255) NOT NULL COLLATE BINARY, password VARCHAR(255) NOT NULL)');
-        $this->addSql('INSERT INTO user (id, email, roles, first_name, password) SELECT id, email, roles, first_name, password FROM __temp__user');
+        $this->addSql('INSERT INTO user (id, email, roles, first_name, password) SELECT id, email, roles, first_name, \'pass\' FROM __temp__user');
         $this->addSql('DROP TABLE __temp__user');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON user (email)');
         $this->addSql('DROP INDEX IDX_9474526C7294869C');

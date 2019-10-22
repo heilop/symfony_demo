@@ -45,11 +45,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
     private $publishedArt;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $author;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $heartCount = 0;
@@ -69,6 +64,12 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles")
      */
     private $tags;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
 
     public function __construct()
     {
@@ -125,18 +126,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
     public function setPublishedArt(?\DateTimeInterface $publishedArt): self
     {
         $this->publishedArt = $publishedArt;
-
-        return $this;
-    }
-
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?string $author): self
-    {
-        $this->author = $author;
 
         return $this;
     }
@@ -237,6 +226,18 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
         if ($this->tags->contains($tag)) {
             $this->tags->removeElement($tag);
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
